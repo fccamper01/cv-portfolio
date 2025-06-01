@@ -21,8 +21,8 @@ const DeviceAnalyticsAnimation: React.FC = () => {
   const bgColor = "hsl(225, 50%, 95%)"; // Light blue background
   const deviceColor = "hsl(230, 25%, 35%)"; // Darker grayish-blue for device bodies
   const screenColor = "hsl(225, 30%, 88%)"; // Lighter grey for screens
-  const accentBlue = "hsl(220, 70%, 65%)";
-  const accentPurple = "hsl(250, 60%, 70%)";
+  const accentBlue = "hsl(220, 70%, 65%)"; // Existing blue, good.
+  const accentLightBlue = "hsl(205, 70%, 70%)"; // New: Light Blue, replaces purple
   const accentTeal = "hsl(190, 60%, 60%)";
   const highlightWhite = "hsl(0, 0%, 98%)";
   const shadowColor = "hsla(230, 25%, 20%, 0.1)";
@@ -70,7 +70,7 @@ const DeviceAnalyticsAnimation: React.FC = () => {
           
           {/* Pie Chart (Laptop) */}
           <g transform="translate(150, 140)">
-            <circle cx="0" cy="0" r="15" fill={accentPurple} className="da-pie-slice" style={{ clipPath: 'polygon(0% 0%, 100% 0%, 100% 50%, 0% 50%)', animationDelay: `${baseDelay + stagger * 4}s` }}/>
+            <circle cx="0" cy="0" r="15" fill={accentLightBlue} className="da-pie-slice" style={{ clipPath: 'polygon(0% 0%, 100% 0%, 100% 50%, 0% 50%)', animationDelay: `${baseDelay + stagger * 4}s` }}/> {/* Changed from accentPurple */}
             <circle cx="0" cy="0" r="15" fill={accentTeal} className="da-pie-slice" style={{ clipPath: 'polygon(0% 50%, 100% 50%, 100% 100%, 0% 100%)', animationDelay: `${baseDelay + stagger * 4.5}s` }}/>
           </g>
 
@@ -85,7 +85,7 @@ const DeviceAnalyticsAnimation: React.FC = () => {
           {/* Bar Chart (Laptop) */}
           <g transform="translate(130, 185)">
             {[30, 20, 25].map((h, i) => (
-              <rect key={`lbc-${i}`} x={i * 12} y={20 - h} width="8" height={h} fill={accentPurple} className="da-bar" style={{ animationDelay: `${baseDelay + stagger * (6 + i * 0.3)}s` }}/>
+              <rect key={`lbc-${i}`} x={i * 12} y={20 - h} width="8" height={h} fill={accentLightBlue} className="da-bar" style={{ animationDelay: `${baseDelay + stagger * (6 + i * 0.3)}s` }}/> {/* Changed from accentPurple */}
             ))}
           </g>
            {/* Hamburger menu icon */}

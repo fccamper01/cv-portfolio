@@ -5,7 +5,7 @@ import React from 'react';
 export const USER_NAME = "Alona Ponomarenko";
 export const USER_TAGLINE = "Product Owner"; // Used in Header
 export const USER_ROLE = "Product Owner"; // Used in HeroSection
-export const USER_SUB_TAGLINE = "Translating Ideas into Experiences, One Sprint at a Time."; // New animated tagline for HeroSection
+export const USER_SUB_TAGLINE = "Translating Ideas into Experiences. One Sprint at a Time."; // Updated tagline for HeroSection
 
 export const PORTFOLIO_ITEMS: PortfolioItemData[] = [
   {

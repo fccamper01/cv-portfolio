@@ -2,29 +2,69 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import LoadingScreen from './components/LoadingScreen';
 import HeroSection from './components/HeroSection';
-import NavigationBar from './components/NavigationBar'; // Added
+import NavigationBar from './components/NavigationBar'; 
+import SharedBackground from './components/SharedBackground'; // Added
 import { ChevronUpIcon } from './components/Icons';
 
-// Define a type for section configuration
 interface SectionConfig {
   id: string;
-  title: string; // For menu display
-  bgColorClass: string;
-  textColorClass?: string;
+  title: string; 
+  baseBgColorClass: string; // Base color for the section
+  contentTextColorClass?: string; // Text color for the main content
+  // Props for SharedBackground customization if needed per section
+  sharedBgSnippetColor?: string;
+  sharedBgPanel1Color?: string;
+  sharedBgPanel2Color?: string;
 }
 
-// Central configuration for all sections
 const SECTIONS_CONFIG: SectionConfig[] = [
-  { id: 'hero', title: 'Home', bgColorClass: 'bg-[#E8EFF5]', textColorClass: 'text-indigo-700' }, // Hero has its own styling, bgColorClass is for consistency if needed
-  { id: 'section2', title: 'Services', bgColorClass: 'bg-teal-700', textColorClass: 'text-white' },
-  { id: 'section3', title: 'About', bgColorClass: 'bg-slate-700', textColorClass: 'text-white' },
-  { id: 'section4', title: 'Portfolio', bgColorClass: 'bg-sky-700', textColorClass: 'text-white' },
-  { id: 'section5', title: 'Blog', bgColorClass: 'bg-indigo-700', textColorClass: 'text-white' },
-  { id: 'section6', title: 'Contact', bgColorClass: 'bg-neutral-800', textColorClass: 'text-white' },
+  { 
+    id: 'hero', 
+    title: 'Home', 
+    baseBgColorClass: 'bg-[#E8EFF5]', 
+    contentTextColorClass: 'text-sky-600', // Hero specific text colors are handled within HeroSection mostly
+    sharedBgSnippetColor: '#374151' // gray-700 for hero's darker snippets
+  },
+  { 
+    id: 'section2', 
+    title: 'Services', 
+    baseBgColorClass: 'bg-[#E8EFF5]', 
+    contentTextColorClass: 'text-teal-700', // Updated for contrast
+    sharedBgSnippetColor: 'text-teal-700/40'
+  },
+  { 
+    id: 'section3', 
+    title: 'About', 
+    baseBgColorClass: 'bg-[#E8EFF5]', 
+    contentTextColorClass: 'text-slate-700', // Updated for contrast
+    sharedBgSnippetColor: 'text-slate-700/40'
+  },
+  { 
+    id: 'section4', 
+    title: 'Portfolio', 
+    baseBgColorClass: 'bg-[#E8EFF5]', 
+    contentTextColorClass: 'text-sky-700', // Updated for contrast
+    sharedBgSnippetColor: 'text-sky-700/40'
+  },
+  { 
+    id: 'section5', 
+    title: 'Blog', 
+    baseBgColorClass: 'bg-[#E8EFF5]', 
+    contentTextColorClass: 'text-sky-600', // Updated for contrast
+    sharedBgSnippetColor: 'text-sky-600/40'
+  },
+  { 
+    id: 'section6', 
+    title: 'Contact', 
+    baseBgColorClass: 'bg-[#E8EFF5]', 
+    contentTextColorClass: 'text-neutral-700', // Updated for contrast
+    sharedBgSnippetColor: 'text-neutral-700/40'
+  },
 ];
 
 const SECTION_IDS = SECTIONS_CONFIG.map(s => s.id);
-const SCROLL_SETTLE_DURATION = 700; // ms, estimate for scrollIntoView animation
+const SCROLL_SETTLE_DURATION = 1000;
+const NAV_BAR_HEIGHT = 64;
 
 const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -50,9 +90,9 @@ const App: React.FC = () => {
         if (initiatedBy === 'program') {
           isProgrammaticScrollRef.current = true;
         }
-        sectionElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
         setCurrentSectionIndex(index); 
-
+        sectionElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        
         if (initiatedBy === 'program') {
           setTimeout(() => {
             isProgrammaticScrollRef.current = false;
@@ -60,9 +100,11 @@ const App: React.FC = () => {
         }
       }
     }
-  }, []);
+  }, [setCurrentSectionIndex]);
   
   useEffect(() => {
+    if (isLoading) return; 
+
     sectionRefs.current = SECTION_IDS.map(id => document.getElementById(id));
 
     if (observerRef.current) observerRef.current.disconnect();
@@ -71,20 +113,29 @@ const App: React.FC = () => {
       (entries) => {
         if (isProgrammaticScrollRef.current) return;
 
-        const intersectingEntry = entries.find(entry => entry.isIntersecting);
+        const intersectingEntries = entries.filter(entry => entry.isIntersecting);
         
-        if (intersectingEntry) {
-          const visibleSectionId = intersectingEntry.target.id;
-          const visibleSectionIndex = SECTION_IDS.indexOf(visibleSectionId);
-          if (visibleSectionIndex !== -1 && visibleSectionIndex !== currentSectionIndex) {
-            setCurrentSectionIndex(visibleSectionIndex);
+        if (intersectingEntries.length > 0) {
+          intersectingEntries.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+          const topVisibleEntry = intersectingEntries[0];
+          
+          if (topVisibleEntry) {
+            const visibleSectionId = topVisibleEntry.target.id;
+            const visibleSectionIndex = SECTION_IDS.indexOf(visibleSectionId);
+            
+            setCurrentSectionIndex(prevCurrentSectionIndex => {
+              if (visibleSectionIndex !== -1 && visibleSectionIndex !== prevCurrentSectionIndex) {
+                return visibleSectionIndex;
+              }
+              return prevCurrentSectionIndex;
+            });
           }
         }
       },
       {
         root: null,
-        rootMargin: '0px', // Adjust if nav bar is transparent and content should trigger "active" sooner
-        threshold: 0.5, 
+        rootMargin: `-${NAV_BAR_HEIGHT - 1}px 0px -20% 0px`, 
+        threshold: 0.01, 
       }
     );
 
@@ -92,36 +143,51 @@ const App: React.FC = () => {
       if (section) observerRef.current?.observe(section);
     });
 
-    if (!isLoading && sectionRefs.current[0] && sectionRefs.current[0]?.getBoundingClientRect().top === 0) {
-        if (currentSectionIndex !== 0) setCurrentSectionIndex(0);
+    const firstVisibleSection = sectionRefs.current.find(sec => {
+        if (!sec) return false;
+        const rect = sec.getBoundingClientRect();
+        return rect.top <= NAV_BAR_HEIGHT && rect.bottom > NAV_BAR_HEIGHT;
+    });
+    if(firstVisibleSection){
+        const initialIndex = SECTION_IDS.indexOf(firstVisibleSection.id);
+        if(initialIndex !== -1 && initialIndex !== currentSectionIndex) {
+            setCurrentSectionIndex(initialIndex);
+        }
     }
 
     return () => {
       observerRef.current?.disconnect();
     };
-  }, [isLoading, currentSectionIndex]);
-
-  useEffect(() => {
-    if (!isLoading) {
-      const heroElement = document.getElementById(SECTION_IDS[0]);
-      if (heroElement && heroElement.getBoundingClientRect().top !== 0 && currentSectionIndex === 0) {
-        setTimeout(() => {
-            if (!isProgrammaticScrollRef.current && document.getElementById(SECTION_IDS[0])?.getBoundingClientRect().top !== 0) {
-                 navigateToSection(0, 'program');
-            }
-        }, 100);
-      }
-    }
-  }, [isLoading, navigateToSection, currentSectionIndex]);
+  }, [isLoading]); 
 
   if (isLoading) {
     return <LoadingScreen />;
   }
 
-  const PlaceholderSection: React.FC<SectionConfig> = ({ id, title, bgColorClass, textColorClass = "text-white"}) => (
-    <section id={id} className={`h-screen w-full flex flex-col items-center justify-center ${bgColorClass} ${textColorClass} p-8 outline-none snap-start`} tabIndex={-1} aria-label={title}>
-      <h2 className="text-4xl font-bold mb-4">{title}</h2>
-      <p className="text-lg text-center">Content for {title.toLowerCase()} will go here.</p>
+  const PlaceholderSection: React.FC<SectionConfig> = ({ 
+      id, 
+      title, 
+      baseBgColorClass, 
+      contentTextColorClass = "text-slate-700", // Default dark text
+      sharedBgSnippetColor,
+      sharedBgPanel1Color,
+      sharedBgPanel2Color 
+    }) => (
+    <section 
+      id={id} 
+      className={`relative h-screen w-full flex flex-col items-center justify-center ${baseBgColorClass} p-8 outline-none snap-start overflow-hidden`} 
+      tabIndex={-1} 
+      aria-label={title}
+    >
+      <SharedBackground 
+        snippetColor={sharedBgSnippetColor}
+        panel1Color={sharedBgPanel1Color}
+        panel2Color={sharedBgPanel2Color}
+      />
+      <div className={`relative z-10 text-center ${contentTextColorClass}`}>
+        <h2 className="text-4xl font-bold mb-4">{title}</h2>
+        <p className="text-lg">Content for {title.toLowerCase()} will go here.</p>
+      </div>
     </section>
   );
 
@@ -133,13 +199,16 @@ const App: React.FC = () => {
         onNavigate={navigateToSection} 
       />
       <HeroSection /> 
-      {SECTIONS_CONFIG.slice(1).map(section => ( // Render placeholder sections starting from index 1
+      {SECTIONS_CONFIG.slice(1).map(section => (
         <PlaceholderSection
           key={section.id}
           id={section.id}
           title={section.title}
-          bgColorClass={section.bgColorClass}
-          textColorClass={section.textColorClass}
+          baseBgColorClass={section.baseBgColorClass}
+          contentTextColorClass={section.contentTextColorClass}
+          sharedBgSnippetColor={section.sharedBgSnippetColor}
+          sharedBgPanel1Color={section.sharedBgPanel1Color}
+          sharedBgPanel2Color={section.sharedBgPanel2Color}
         />
       ))}
 

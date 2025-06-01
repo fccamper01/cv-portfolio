@@ -118,8 +118,8 @@ const BlueprintLines: React.FC<BlueprintLinesViewerProps> = ({ isActive }) => {
   return (
     <div 
       aria-hidden="true"
-      className={`absolute inset-0 z-[5] flex items-center justify-center transition-opacity duration-700 ease-out text-indigo-400/50 pointer-events-none
-                  ${isActive ? 'opacity-100' : 'opacity-0'}`}
+      className={`absolute inset-0 z-[5] flex items-center justify-center transition-opacity duration-700 ease-out text-sky-300/50 pointer-events-none
+                  ${isActive ? 'opacity-100' : 'opacity-0'}`} // Changed from text-indigo-400/50
     >
       <svg width="400" height="300" viewBox="0 0 400 300" className="overflow-visible">
         {/* Outer frame */}

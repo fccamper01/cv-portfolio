@@ -72,7 +72,7 @@
 
       :root {
         --hero-glow-color-primary: rgba(255, 255, 255, 0.9);
-        --hero-glow-color-secondary: rgba(129, 140, 248, 0.6); /* Tailwind indigo-400 */
+        --hero-glow-color-secondary: rgba(56, 189, 248, 0.6); /* Changed from indigo-400 to sky-400 (light blue) */
       }
 
       .opacity-0 { opacity: 0; }
@@ -170,9 +170,9 @@
         position: fixed;
         bottom: 20px;
         right: 20px;
-        background-color: transparent; /* Changed */
-        color: #18181b; /* Changed to black (Tailwind zinc-900) for the icon */
-        border: 2px solid #18181b; /* Changed to black border */
+        background-color: transparent; 
+        color: #6b7280; /* Tailwind gray-500 for the icon */
+        border: 2px solid rgba(107, 114, 128, 0.5); /* Semi-transparent gray-500 border */
         border-radius: 8px; 
         width: 48px; 
         height: 48px;
@@ -181,7 +181,7 @@
         justify-content: center;
         cursor: pointer;
         z-index: 30;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Softer shadow */
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
         opacity: 0;
         transform: translateY(20px);
         pointer-events: none;
@@ -193,11 +193,12 @@
         pointer-events: auto;
       }
       .scroll-to-top-button:hover {
-        background-color: rgba(0, 0, 0, 0.05); /* Very subtle dark tint on hover */
-        border-color: #000000; /* Slightly darker border on hover */
+        background-color: rgba(107, 114, 128, 0.08); /* Subtle gray tint on hover */
+        border-color: rgba(75, 85, 99, 0.7); /* Slightly darker/more opaque gray-600 border */
+        color: #4b5563; /* Tailwind gray-600 for icon on hover */
       }
       .scroll-to-top-button:active {
-        background-color: rgba(0, 0, 0, 0.08); /* Slightly more tint on active */
+        background-color: rgba(107, 114, 128, 0.12); /* Slightly more tint on active */
         transform: translateY(0) scale(0.95); 
       }
       .scroll-to-top-button svg {
@@ -212,7 +213,7 @@
         left: 0;
         right: 0;
         height: 64px; /* Matches scroll-padding-top */
-        background-color: rgba(24, 24, 27, 0.8); /* Tailwind zinc-900 with transparency */
+        background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent white */
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
         z-index: 40;
@@ -220,7 +221,7 @@
         align-items: center;
         justify-content: center;
         padding: 0 1rem;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.08); /* Subtle shadow for white bg */
         transition: background-color 0.3s ease;
       }
       .main-nav ul {
@@ -233,7 +234,7 @@
       .main-nav li button {
         background-color: transparent;
         border: none;
-        color: #a1a1aa; /* Tailwind zinc-400 */
+        color: #3f3f46; /* Tailwind zinc-700 for dark text on light bg */
         padding: 0.5rem 1rem;
         border-radius: 6px;
         font-size: 0.875rem; /* text-sm */
@@ -243,21 +244,20 @@
         position: relative;
       }
       .main-nav li button:hover {
-        color: #ffffff; /* White */
-        background-color: rgba(255, 255, 255, 0.1);
+        color: #18181b; /* Tailwind zinc-900 for darker hover text */
+        background-color: rgba(0, 0, 0, 0.05); /* Subtle dark tint on hover */
       }
       .main-nav li button.active {
-        color: #ffffff; /* White */
-        /* background-color: rgba(79, 70, 229, 0.5); Tailwind indigo-600 with opacity */
+        color: #18181b; /* Tailwind zinc-900 for active text */
       }
       .main-nav li button.active::after { /* Underline for active item */
         content: '';
         position: absolute;
         bottom: 4px; /* Adjust as needed */
-        left: 0.75rem; /* padding-left of button / 2 for centering-ish */
-        right: 0.75rem; /* padding-right of button / 2 */
+        left: 0.75rem; 
+        right: 0.75rem; 
         height: 2px;
-        background-color: #818cf8; /* Tailwind indigo-400 */
+        background-color: #0ea5e9; /* Changed from indigo-600 to sky-500 (light blue) */
         border-radius: 1px;
       }
 
