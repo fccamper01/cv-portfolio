@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import LoadingSpinner from './LoadingSpinner';
-import TypingText from './TypingText'; // Import the new TypingText component
+// import LoadingSpinner from './LoadingSpinner'; // Replaced
+import DeviceAnalyticsAnimation from './DeviceAnalyticsAnimation'; // Added
+import TypingText from './TypingText';
+import BlueprintLines from './BlueprintLines'; 
 import { USER_NAME, USER_ROLE, USER_SUB_TAGLINE } from '../constants';
 
 const generateRandomHexChars = (length: number) => {
@@ -18,8 +20,7 @@ const generateCodeContent = () => Array.from({ length: Math.floor(3 + Math.rando
 const HeroSection: React.FC = () => {
   const [codeSnippets, setCodeSnippets] = useState<Array<{id: number; style: React.CSSProperties; content: string}>>([]);
   const [areHudElementsVisible, setAreHudElementsVisible] = useState(false);
-  const [isRoleVisible, setIsRoleVisible] = useState(false);
-  // isNameAnimationComplete is no longer needed as name is static.
+  const [isRoleVisible, setIsRoleVisible] = useState(false); 
   
   useEffect(() => {
     const newSnippets = [];
@@ -39,15 +40,13 @@ const HeroSection: React.FC = () => {
     }
     setCodeSnippets(newSnippets);
 
-    // Trigger HUD animation shortly after mount
     const hudTimer = setTimeout(() => {
       setAreHudElementsVisible(true);
     }, 500);
 
-    // Trigger Role animation after HUDs start
     const roleTimer = setTimeout(() => {
       setIsRoleVisible(true);
-    }, 800); // Slightly after HUD elements start
+    }, 800); 
 
     return () => {
       clearTimeout(hudTimer);
@@ -69,7 +68,7 @@ const HeroSection: React.FC = () => {
   return (
     <section
       id="hero"
-      className="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[#E8EFF5] text-white"
+      className="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[#E8EFF5] text-white snap-start"
       aria-labelledby="hero-main-title"
     >
       {/* Background geometric shapes */}
@@ -83,18 +82,22 @@ const HeroSection: React.FC = () => {
       </div>
 
       {/* Pseudo-code snippets */}
-      <div className="absolute inset-0 code-snippet-bg">
+      <div className="absolute inset-0 code-snippet-bg z-[1]">
         {codeSnippets.map(snippet => (
           <pre key={snippet.id} className="code-block" style={snippet.style}>
             {snippet.content}
           </pre>
         ))}
       </div>
+
+      <BlueprintLines isActive={isRoleVisible} />
       
-      <div className="relative z-10 flex flex-col items-center justify-center text-center p-4 mt-[-10vh]">
-        <LoadingSpinner />
+      {/* Central Animation (Replaced Spinner) */}
+      <div className="relative z-10 flex flex-col items-center justify-center text-center p-4">
+        <DeviceAnalyticsAnimation />
       </div>
 
+      {/* Main Text block */}
       <div className="absolute bottom-12 sm:bottom-16 md:bottom-20 left-0 right-0 z-10 flex flex-col items-center text-center px-4">
         <h1 
           id="hero-main-title"
@@ -111,18 +114,18 @@ const HeroSection: React.FC = () => {
         <TypingText
           textToType={USER_SUB_TAGLINE}
           typingSpeedMs={60}
-          startCondition={isRoleVisible} // Start typing when role is visible
-          className="mt-3 text-sm sm:text-base md:text-lg font-normal text-indigo-600/80 tracking-wide min-h-[1.5em]" // Added min-h for layout stability
+          startCondition={isRoleVisible}
+          className="mt-3 text-sm sm:text-base md:text-lg font-normal text-indigo-600/80 tracking-wide min-h-[1.5em]"
           style={{ textShadow: '0 0 3px rgba(255,255,255,0.3)'}}
         />
       </div>
 
       {/* Small HUD text elements */}
-      <div className={`absolute top-8 left-8 z-10 text-xs font-mono text-indigo-600/70 opacity-75 ${areHudElementsVisible ? 'opacity-75' : 'opacity-0'}`}>
+      <div className={`absolute top-8 left-8 z-10 text-xs font-mono text-indigo-600/70 ${areHudElementsVisible ? 'opacity-75' : 'opacity-0'}`}>
         <p className={`${hudTextStyle} ${areHudElementsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`} style={{transitionDelay: areHudElementsVisible ? '0.1s' : '0s'}}>CONN_STATUS: SECURE</p>
         <p className={`${hudTextStyle} ${areHudElementsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`} style={{transitionDelay: areHudElementsVisible ? '0.2s' : '0s'}}>GRID_REF: 7B3A.01</p>
       </div>
-      <div className={`absolute bottom-8 right-8 z-10 text-xs font-mono text-indigo-600/70 opacity-75 text-right ${areHudElementsVisible ? 'opacity-75' : 'opacity-0'}`}>
+      <div className={`absolute bottom-8 right-8 z-10 text-xs font-mono text-indigo-600/70 text-right ${areHudElementsVisible ? 'opacity-75' : 'opacity-0'}`}>
         <p className={`${hudTextStyle} ${areHudElementsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`} style={{transitionDelay: areHudElementsVisible ? '0.3s' : '0s'}}>NODE_ID: AP-PO-2024</p>
         <p className={`${hudTextStyle} ${areHudElementsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`} style={{transitionDelay: areHudElementsVisible ? '0.4s' : '0s'}}>OP_MODE: ACTIVE</p>
       </div>

@@ -1,16 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="scroll-behavior: smooth;">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Minimalist Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      /* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap'); */
       body {
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
         background-color: #f4f4f5; /* Tailwind zinc-100 - A neutral base for the page */
         color: #18181b; /* Tailwind zinc-900 */
+        overscroll-behavior-y: contain; 
+      }
+
+      html {
+        scroll-padding-top: 64px; /* Adjust this to match your navbar height */
       }
 
       @keyframes screen-fade-in {
@@ -30,16 +34,14 @@
         animation: screen-fade-out 0.5s ease-in forwards;
       }
 
-      /* Spinner Segment Animations */
       @keyframes segment-pulse {
         0%, 100% { opacity: 0.5; transform: scale(0.95); }
         50% { opacity: 1; transform: scale(1.0); }
       }
 
-      .segment { /* General class for all segments for animation */
+      .segment { 
         animation: segment-pulse 2.2s ease-in-out infinite;
       }
-      /* Stagger animation delays */
       .segment-delay-1 { animation-delay: 0s; }
       .segment-delay-2 { animation-delay: 0.2s; }
       .segment-delay-3 { animation-delay: 0.4s; }
@@ -63,40 +65,200 @@
       .code-block {
         position: absolute;
         opacity: 0.05; 
-        color: #2c5282; /* Darker blue for visibility on light blue bg - was slate-600 */
+        color: #2c5282; 
         pointer-events: none;
         white-space: pre;
       }
 
-      /* Hero Text Glow Variables */
       :root {
         --hero-glow-color-primary: rgba(255, 255, 255, 0.9);
         --hero-glow-color-secondary: rgba(129, 140, 248, 0.6); /* Tailwind indigo-400 */
       }
 
-      /* Helper for animations */
       .opacity-0 { opacity: 0; }
       .opacity-100 { opacity: 1; }
       .translate-y-2 { transform: translateY(0.5rem); }
       .translate-y-0 { transform: translateY(0); }
       .transition-all-500-ease-out {
         transition-property: all;
-        transition-timing-function: cubic-bezier(0, 0, 0.2, 1); /* ease-out */
+        transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
         transition-duration: 500ms;
       }
        .transition-all-300-ease-out {
         transition-property: all;
-        transition-timing-function: cubic-bezier(0, 0, 0.2, 1); /* ease-out */
+        transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
         transition-duration: 300ms;
       }
 
-      /* For TypingText cursor blink */
       @keyframes blink-caret {
         from, to { opacity: 1; }
         50% { opacity: 0; }
       }
-      .animate-pulse { /* TailwindCSS typically provides this, but defining for safety / explicitness if used directly */
+      .animate-pulse {
         animation: blink-caret 1s step-end infinite;
+      }
+
+      @keyframes draw-svg-line {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      .blueprint-shape-initial {
+        stroke-dashoffset: 1000; 
+        stroke-dasharray: 1000;  
+      }
+      .blueprint-shape-active {
+        stroke-dashoffset: 1000;
+        stroke-dasharray: 1000; 
+        animation: draw-svg-line 1.5s cubic-bezier(0.35, 0, 0.25, 1) forwards;
+      }
+
+      /* === DeviceAnalyticsAnimation CSS === */
+      @keyframes da-fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      @keyframes da-fade-in-slide-up {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes da-grow-bar {
+        from { transform: scaleY(0); }
+        to { transform: scaleY(1); }
+      }
+      @keyframes da-draw-line {
+        from { stroke-dashoffset: 1000; } 
+        to { stroke-dashoffset: 0; }
+      }
+      @keyframes da-sparkle {
+        0%, 100% { opacity: 0.3; transform: scale(0.8); }
+        50% { opacity: 1; transform: scale(1); }
+      }
+      @keyframes da-pie-slice-reveal {
+        from { opacity: 0; transform: scale(0.5); }
+        to { opacity: 1; transform: scale(1); }
+      }
+
+      .da-element { opacity: 0; animation: da-fade-in 0.5s ease-out forwards; }
+      .da-slide-up-element { opacity: 0; animation: da-fade-in-slide-up 0.6s ease-out forwards; }
+      
+      .da-bar {
+        transform-origin: bottom;
+        animation: da-grow-bar 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+      }
+      
+      .da-line-graph {
+        stroke-dasharray: 1000; 
+        stroke-dashoffset: 1000;
+        animation: da-draw-line 1s ease-in-out forwards;
+      }
+      
+      .da-pie-slice {
+        transform-origin: center; 
+        animation: da-pie-slice-reveal 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; 
+      }
+
+      .da-sparkle-item {
+        opacity: 0;
+        animation: da-sparkle 2s ease-in-out infinite;
+      }
+      /* === End DeviceAnalyticsAnimation CSS === */
+
+      /* === Scroll To Top Button === */
+      .scroll-to-top-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: transparent; /* Changed */
+        color: #18181b; /* Changed to black (Tailwind zinc-900) for the icon */
+        border: 2px solid #18181b; /* Changed to black border */
+        border-radius: 8px; 
+        width: 48px; 
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 30;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Softer shadow */
+        opacity: 0;
+        transform: translateY(20px);
+        pointer-events: none;
+        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out;
+      }
+      .scroll-to-top-button.visible {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+      .scroll-to-top-button:hover {
+        background-color: rgba(0, 0, 0, 0.05); /* Very subtle dark tint on hover */
+        border-color: #000000; /* Slightly darker border on hover */
+      }
+      .scroll-to-top-button:active {
+        background-color: rgba(0, 0, 0, 0.08); /* Slightly more tint on active */
+        transform: translateY(0) scale(0.95); 
+      }
+      .scroll-to-top-button svg {
+        width: 24px; 
+        height: 24px;
+      }
+
+      /* === Navigation Bar === */
+      .main-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 64px; /* Matches scroll-padding-top */
+        background-color: rgba(24, 24, 27, 0.8); /* Tailwind zinc-900 with transparency */
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        z-index: 40;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 1rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: background-color 0.3s ease;
+      }
+      .main-nav ul {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        gap: 0.5rem; /* Space between items */
+      }
+      .main-nav li button {
+        background-color: transparent;
+        border: none;
+        color: #a1a1aa; /* Tailwind zinc-400 */
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-size: 0.875rem; /* text-sm */
+        font-weight: 500; /* medium */
+        cursor: pointer;
+        transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+        position: relative;
+      }
+      .main-nav li button:hover {
+        color: #ffffff; /* White */
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+      .main-nav li button.active {
+        color: #ffffff; /* White */
+        /* background-color: rgba(79, 70, 229, 0.5); Tailwind indigo-600 with opacity */
+      }
+      .main-nav li button.active::after { /* Underline for active item */
+        content: '';
+        position: absolute;
+        bottom: 4px; /* Adjust as needed */
+        left: 0.75rem; /* padding-left of button / 2 for centering-ish */
+        right: 0.75rem; /* padding-right of button / 2 */
+        height: 2px;
+        background-color: #818cf8; /* Tailwind indigo-400 */
+        border-radius: 1px;
       }
 
     </style>
