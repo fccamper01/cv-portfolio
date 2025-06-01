@@ -34,7 +34,7 @@ const DeviceAnalyticsAnimation: React.FC = () => {
   ];
 
   return (
-    <div className="relative w-48 h-48 sm:w-64 sm:h-64"> {/* Adjusted size for better visibility */}
+    <div className="relative w-full h-full"> {/* Changed from fixed/responsive widths to w-full h-full */}
       <svg viewBox="0 0 400 350" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
         {/* Background Accent */}
         <circle cx="200" cy="175" r="180" fill={bgColor} className="da-element" style={{ animationDelay: `${baseDelay}s` }} />

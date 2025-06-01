@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { IconProps } from '../types';
 
@@ -114,5 +115,34 @@ export const XIcon: React.FC<IconProps> = ({ className }) => (
     aria-hidden="true"
   >
     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+  </svg>
+);
+
+export const MapPinIcon: React.FC<IconProps> = ({ className }) => (
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    fill="none" 
+    viewBox="0 0 24 24" 
+    strokeWidth={1.5} 
+    stroke="currentColor" 
+    className={className || "w-6 h-6"}
+    aria-hidden="true"
+  >
+    <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+  </svg>
+);
+
+export const PhoneIcon: React.FC<IconProps> = ({ className }) => (
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    fill="none" 
+    viewBox="0 0 24 24" 
+    strokeWidth={1.5} 
+    stroke="currentColor" 
+    className={className || "w-6 h-6"}
+    aria-hidden="true"
+  >
+    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.018-.991-.053-1.467l-.092-.828a2.25 2.25 0 00-2.446-2.087l-2.18.545a2.25 2.25 0 01-2.329-1.184l-.229-.687a2.25 2.25 0 00-2.206-1.533H9.75a2.25 2.25 0 00-2.206 1.533l-.229.687a2.25 2.25 0 01-2.329 1.184l-2.18-.545a2.25 2.25 0 00-2.446 2.087l-.092.828c-.035.476-.053.951-.053 1.467V19.5a2.25 2.25 0 002.25 2.25h2.25" />
   </svg>
 );
