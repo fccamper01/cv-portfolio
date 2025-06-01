@@ -70,7 +70,7 @@ const DeviceAnalyticsAnimation: React.FC = () => {
           
           {/* Pie Chart (Laptop) */}
           <g transform="translate(150, 140)">
-            <circle cx="0" cy="0" r="15" fill={accentLightBlue} className="da-pie-slice" style={{ clipPath: 'polygon(0% 0%, 100% 0%, 100% 50%, 0% 50%)', animationDelay: `${baseDelay + stagger * 4}s` }}/> {/* Changed from accentPurple */}
+            <circle cx="0" cy="0" r="15" fill={accentLightBlue} className="da-pie-slice" style={{ clipPath: 'polygon(0% 0%, 100% 0%, 100% 50%, 0% 50%)', animationDelay: `${baseDelay + stagger * 4}s` }}/>
             <circle cx="0" cy="0" r="15" fill={accentTeal} className="da-pie-slice" style={{ clipPath: 'polygon(0% 50%, 100% 50%, 100% 100%, 0% 100%)', animationDelay: `${baseDelay + stagger * 4.5}s` }}/>
           </g>
 
@@ -85,7 +85,7 @@ const DeviceAnalyticsAnimation: React.FC = () => {
           {/* Bar Chart (Laptop) */}
           <g transform="translate(130, 185)">
             {[30, 20, 25].map((h, i) => (
-              <rect key={`lbc-${i}`} x={i * 12} y={20 - h} width="8" height={h} fill={accentLightBlue} className="da-bar" style={{ animationDelay: `${baseDelay + stagger * (6 + i * 0.3)}s` }}/> {/* Changed from accentPurple */}
+              <rect key={`lbc-${i}`} x={i * 12} y={20 - h} width="8" height={h} fill={accentLightBlue} className="da-bar" style={{ animationDelay: `${baseDelay + stagger * (6 + i * 0.3)}s` }}/> 
             ))}
           </g>
            {/* Hamburger menu icon */}
