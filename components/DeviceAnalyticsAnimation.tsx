@@ -85,7 +85,7 @@ const DeviceAnalyticsAnimation: React.FC = () => {
           {/* Bar Chart (Laptop) */}
           <g transform="translate(130, 185)">
             {[30, 20, 25].map((h, i) => (
-              <rect key={`lbc-${i}`} x={i * 12} y={20 - h} width="8" height={h} fill={accentLightBlue} className="da-bar" style={{ animationDelay: `${baseDelay + stagger * (6 + i * 0.3)}s` }}/> 
+              <rect key={`lbc-${i}`} x={i * 12} y={20 - h} width="8" height={h} fill={accentLightBlue} className="da-bar" style={{ animationDelay: `${baseDelay + stagger * (6 + i * 0.3)}s` }}/>
             ))}
           </g>
            {/* Hamburger menu icon */}

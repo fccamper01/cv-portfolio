@@ -14,7 +14,7 @@
       }
 
       html {
-        scroll-padding-top: 64px; /* Adjust this to match your navbar height */
+        scroll-padding-top: 64px; /* Ensure this matches navbar height */
       }
 
       @keyframes screen-fade-in {
@@ -207,7 +207,7 @@
       }
 
       /* === Navigation Bar === */
-      .main-nav {
+      .main-nav { /* Renamed from .navigation-bar for clarity, or keep if preferred */
         position: fixed;
         top: 0;
         left: 0;
@@ -217,21 +217,22 @@
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
         z-index: 40;
-        display: flex;
+        display: flex; /* Base display */
         align-items: center;
-        justify-content: center;
-        padding: 0 1rem;
+        /* justify-content is now handled by Tailwind classes on the nav element */
+        padding: 0 1rem; /* Horizontal padding */
         box-shadow: 0 1px 3px rgba(0,0,0,0.08); /* Subtle shadow for white bg */
         transition: background-color 0.3s ease;
       }
-      .main-nav ul {
-        display: flex;
+      /* Desktop Nav links (will be hidden on mobile by Tailwind md:flex) */
+      .main-nav-desktop-ul { /* More specific class for desktop UL */
+        display: flex; /* Default, Tailwind 'hidden md:flex' will override */
         list-style: none;
         margin: 0;
         padding: 0;
         gap: 0.5rem; /* Space between items */
       }
-      .main-nav li button {
+      .main-nav-desktop-ul li button { /* Styling for desktop nav buttons */
         background-color: transparent;
         border: none;
         color: #3f3f46; /* Tailwind zinc-700 for dark text on light bg */
@@ -242,23 +243,113 @@
         cursor: pointer;
         transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
         position: relative;
+        text-align: left; 
+        width: 100%; 
       }
-      .main-nav li button:hover {
+      .main-nav-desktop-ul li button:hover {
         color: #18181b; /* Tailwind zinc-900 for darker hover text */
         background-color: rgba(0, 0, 0, 0.05); /* Subtle dark tint on hover */
       }
-      .main-nav li button.active {
+      .main-nav-desktop-ul li button.active {
         color: #18181b; /* Tailwind zinc-900 for active text */
       }
-      .main-nav li button.active::after { /* Underline for active item */
+      .main-nav-desktop-ul li button.active::after { /* Underline for active desktop item */
         content: '';
         position: absolute;
         bottom: 4px; /* Adjust as needed */
         left: 0.75rem; 
         right: 0.75rem; 
         height: 2px;
-        background-color: #0ea5e9; /* Changed from indigo-600 to sky-500 (light blue) */
+        background-color: #0ea5e9; /* sky-500 (light blue) */
         border-radius: 1px;
+      }
+
+      /* === Mobile Navigation Specific Styles === */
+      .mobile-menu-button { /* Hamburger button */
+        color: #3f3f46; /* Tailwind zinc-700 */
+        padding: 0.5rem;
+        border-radius: 6px;
+        transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        /* Ensure it's a block or inline-block for proper layout if needed, Tailwind's 'block' or 'flex' can manage this too */
+      }
+      .mobile-menu-button:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+        color: #18181b;
+      }
+      
+      .mobile-menu-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 50; /* Higher than main-nav */
+        background-color: rgba(255, 255, 255, 0.9); /* Slightly more opaque than nav for readability */
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start; /* Align items to top */
+        padding-top: 1.5rem; /* Space for close button and top padding */
+        padding-bottom: 2rem;
+        overflow-y: auto; /* Scroll if many items */
+        animation: screen-fade-in 0.3s ease-out;
+      }
+
+      .mobile-menu-header {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        padding: 0 1.5rem 1rem; /* Padding for close button */
+      }
+
+      .mobile-menu-close-button {
+        color: #3f3f46; /* Tailwind zinc-700 */
+        padding: 0.5rem;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+      }
+       .mobile-menu-close-button:hover {
+        color: #18181b; /* Tailwind zinc-900 */
+      }
+
+      .mobile-menu-overlay ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        max-width: 320px; /* Max width for menu items container */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .mobile-menu-overlay li {
+        width: 100%;
+      }
+      .mobile-menu-overlay li button {
+        background-color: transparent;
+        border: none;
+        color: #3f3f46; 
+        padding: 0.75rem 1.5rem; /* Larger tap targets */
+        border-radius: 6px;
+        font-size: 1.125rem; /* text-lg */
+        font-weight: 500;
+        cursor: pointer;
+        transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+        text-align: center;
+        width: 100%;
+      }
+       .mobile-menu-overlay li button:hover {
+        color: #18181b; 
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+      .mobile-menu-overlay li button.active {
+        color: #18181b; /* Ensure active mobile item has distinct text color */
+        background-color: rgba(0, 0, 0, 0.08); /* More prominent active background for mobile */
+      }
+      /* Ensure no ::after underline for mobile active items */
+      .mobile-menu-overlay li button.active::after { 
+        display: none;
       }
 
     </style>
